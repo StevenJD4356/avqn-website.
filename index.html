@@ -39,8 +39,32 @@ footer{background:#040b17;border-top:1px solid rgba(225,181,95,.4)}
 .hero p{max-width:630px}
 .hero .eyebrow{max-width:800px}
 @media(max-width:760px){.hero{min-height:580px}.hero .wrap:after{right:-35%;width:75vw;opacity:.24}.hero h1{font-size:clamp(42px,10vw,68px)}}
+
+/* Responsive mobile header and navigation */
+.menu-toggle{display:none}
+@media(max-width:760px){
+ .top{position:sticky;top:0}
+ .top .nav{min-height:70px;padding:9px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:12px;position:relative}
+ .brand-image{max-width:none;flex:0 1 auto;min-width:0}
+ .brand-image img{width:132px;height:49px;object-fit:cover}
+ .menu-toggle{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;flex:0 0 44px;width:44px;height:44px;border:1px solid rgba(227,187,105,.6);border-radius:6px;background:#0b2038;color:var(--gold);cursor:pointer}
+ .menu-toggle span{display:block;width:21px;height:2px;border-radius:2px;background:var(--gold)}
+ .navlinks{display:none;position:absolute;top:100%;left:24px;right:24px;flex-direction:column;gap:0;padding:8px;background:#091a2e;border:1px solid rgba(227,187,105,.5);border-radius:0 0 8px 8px;box-shadow:0 16px 30px #0009;font-size:16px;z-index:20}
+ .navlinks.is-open{display:flex}
+ .navlinks a{display:block;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.09)}
+ .navlinks a:last-child{border-bottom:0}
+ .hero{min-height:0;padding:58px 0 68px}
+ .hero h1{font-size:clamp(43px,10vw,64px);line-height:1.07;margin:20px 0}
+ .hero p{font-size:17px;line-height:1.6}
+ .hero .eyebrow{font-size:11px;letter-spacing:.16em}
+ .hero .wrap:after{right:-40%;opacity:.17}
+ .hero .actions{gap:11px;margin-top:25px}
+ .hero .actions .btn{padding:12px 16px}
+ section{scroll-margin-top:75px}
+}
+@media(max-width:380px){.brand-image img{width:115px;height:44px}.hero h1{font-size:41px}.hero .actions .btn{width:100%;text-align:center}}
 </style></head><body>
-<header class="top"><div class="wrap nav"><a class="brand brand-image" href="#home" aria-label="Aletheia Vox Quantum Network home"><img src="./1000010922.jpg" alt="AVQN Aletheia Vox Quantum Network logo"></a><nav class="navlinks" aria-label="Main navigation"><a href="#about">About</a><a href="#coverage">Coverage</a><a href="#archive">Video Archive</a><a href="#contact">Contact</a></nav></div></header>
+<header class="top"><div class="wrap nav"><a class="brand brand-image" href="#home" aria-label="Aletheia Vox Quantum Network home"><img src="./1000010922.jpg" alt="AVQN Aletheia Vox Quantum Network logo"></a><button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primary-navigation"><span></span><span></span><span></span></button><nav class="navlinks" id="primary-navigation" aria-label="Main navigation"><a href="#about">About</a><a href="#coverage">Coverage</a><a href="#archive">Video Archive</a><a href="#contact">Contact</a></nav></div></header>
 <main><div class="hero" id="home"><div class="wrap"><div class="eyebrow">Independent Media • Aletheia Vox Quantum Network</div><h1>TRUTH <em>HAS VOICE.</em></h1><p>News, interviews, culture and original reporting. Exploring the stories, people and perspectives shaping our world.</p><div class="actions"><a class="btn" href="#archive">Explore Our Coverage</a><a class="btn outline" href="https://www.youtube.com/@AletheiaVoxQuantumNetwork" target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a></div></div></div>
 <section id="about"><div class="wrap"><div class="eyebrow">Who We Are</div><h2 class="sectiontitle">Truth • Voice • Impact</h2><p class="lead">Aletheia Vox Quantum Network (AVQN) is an independent media platform covering current events, public affairs, interviews, entertainment and original productions. Our aim is to inform, explore perspectives and make space for meaningful conversation.</p></div></section>
 <section class="alt" id="coverage"><div class="wrap"><div class="eyebrow">What We Cover</div><h2 class="sectiontitle">Our Coverage</h2><div class="grid"><article class="tile"><div class="num">01 / NEWS</div><h3>News Coverage</h3><p>Headlines, breaking developments and reporting on events that matter.</p></article><article class="tile"><div class="num">02 / ANALYSIS</div><h3>Political Analysis</h3><p>Public policy, international affairs and diverse viewpoints.</p></article><article class="tile"><div class="num">03 / SPORTS</div><h3>Combat Sports</h3><p>Interviews and event coverage through our Fight Dispatch MMA outlet.</p></article><article class="tile"><div class="num">04 / CULTURE</div><h3>Cultural Commentary</h3><p>Entertainment, media, technology and the stories behind them.</p></article><article class="tile"><div class="num">05 / INTERVIEWS</div><h3>On-Camera Interviews</h3><p>Conversations with creators, professionals and newsmakers.</p></article><article class="tile"><div class="num">06 / PRODUCTION</div><h3>Original Media</h3><p>Video features, field coverage and original digital productions.</p></article></div></div></section>
@@ -50,6 +74,12 @@ footer{background:#040b17;border-top:1px solid rgba(225,181,95,.4)}
 <footer><div class="wrap">© <span id="year"></span> Aletheia Vox Quantum Network. Truth • Voice • Impact.</div></footer>
 <script>
 document.getElementById('year').textContent=new Date().getFullYear();
+const menuToggle=document.querySelector('.menu-toggle'),mobileNav=document.getElementById('primary-navigation');
+function closeMobileNav(){mobileNav.classList.remove('is-open');menuToggle.setAttribute('aria-expanded','false');menuToggle.setAttribute('aria-label','Open navigation menu')}
+menuToggle.addEventListener('click',()=>{const open=mobileNav.classList.toggle('is-open');menuToggle.setAttribute('aria-expanded',String(open));menuToggle.setAttribute('aria-label',open?'Close navigation menu':'Open navigation menu')});
+mobileNav.querySelectorAll('a').forEach(link=>link.addEventListener('click',closeMobileNav));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMobileNav()});
+document.addEventListener('click',e=>{if(!e.target.closest('.top'))closeMobileNav()});
 let archive=[];const holder=document.getElementById('videos'),empty=document.getElementById('empty'),search=document.getElementById('search'),sort=document.getElementById('sort');
 function render(){const q=search.value.toLowerCase().trim();const entries=archive.filter(v=>(v.title||'').toLowerCase().includes(q)).sort((a,b)=>sort.value==='new'?new Date(b.publishedAt)-new Date(a.publishedAt):new Date(a.publishedAt)-new Date(b.publishedAt));holder.replaceChildren();empty.hidden=entries.length>0;if(!entries.length&&archive.length&&q)empty.textContent='No matching videos. Try a different search.';else if(!entries.length)empty.innerHTML='Our video archive is being connected. For now, visit <a href="https://www.youtube.com/@AletheiaVoxQuantumNetwork/videos" target="_blank" rel="noopener noreferrer" style="color:var(--gold);text-decoration:underline">AVQN on YouTube</a> to view all public uploads.';for(const v of entries){if(!/^[\w-]{11}$/.test(v.id))continue;const card=document.createElement('article');card.className='video';const a=document.createElement('a');a.href='https://www.youtube.com/watch?v='+v.id;a.target='_blank';a.rel='noopener noreferrer';const img=document.createElement('img');img.src='https://i.ytimg.com/vi/'+v.id+'/hqdefault.jpg';img.loading='lazy';img.alt='Video thumbnail: '+(v.title||'AVQN video');a.append(img);const d=document.createElement('div');d.className='detail';const h=document.createElement('h3');h.textContent=v.title||'AVQN video';const t=document.createElement('small');t.textContent=v.publishedAt?new Date(v.publishedAt).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}):'Watch on YouTube';d.append(h,t);card.append(a,d);holder.append(card)}}
 search.addEventListener('input',render);sort.addEventListener('change',render);fetch('./videos.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Archive unavailable');return r.json()}).then(v=>{archive=Array.isArray(v)?v:[];render()}).catch(()=>render());
