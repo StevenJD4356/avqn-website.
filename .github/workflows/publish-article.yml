@@ -1,0 +1,83 @@
+name: Publish AVQN article
+on:
+  workflow_dispatch:
+    inputs:
+      headline:
+        description: Article headline
+        required: true
+        type: string
+      category:
+        description: News category
+        required: true
+        type: choice
+        options:
+          - World News
+          - U.S. Politics
+          - International Politics
+          - Entertainment
+          - Combat Sports
+          - Business
+          - Interviews
+      summary:
+        description: Short summary for news cards and social media
+        required: true
+        type: string
+      body:
+        description: Full article text (paragraphs supported)
+        required: true
+        type: string
+      image_url:
+        description: Optional public image URL
+        required: false
+        type: string
+permissions:
+  contents: write
+concurrency:
+  group: publish-avqn-articles
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Build and publish article
+        env:
+          TITLE: ${{ inputs.headline }}
+          CATEGORY: ${{ inputs.category }}
+          SUMMARY: ${{ inputs.summary }}
+          BODY: ${{ inputs.body }}
+          IMAGE: ${{ inputs.image_url }}
+        run: |
+          python3 - <<'PY'
+          import os,re,json,datetime,html,pathlib
+          title=os.environ['TITLE'].strip()
+          if not title or not os.environ['BODY'].strip(): raise ValueError('Headline and article body required')
+          slug=re.sub(r'[^a-z0-9]+','-',title.lower()).strip('-')[:75] or 'story'
+          today=datetime.date.today().isoformat()
+          slug=f'{today}-{slug}'
+          path=pathlib.Path('articles')/(slug+'.html')
+          if path.exists(): raise ValueError('An article with this title was already published today')
+          data=dict(slug=slug,title=title,category=os.environ['CATEGORY'],summary=os.environ['SUMMARY'],body=os.environ['BODY'],image=os.environ['IMAGE'],date=today)
+          template=pathlib.Path('article-template.html').read_text()
+          page=template.replace('ARTICLE_DATA',json.dumps(data,ensure_ascii=False).replace('<','\\u003c'))
+          page=page.replace('<title>AVQN News Article</title>','<title>'+html.escape(title)+' | AVQN</title>')
+          page=page.replace('Independent reporting from Aletheia Vox Quantum Network',html.escape(data['summary'],quote=True))
+          page=page.replace('content="article"','content="article"><meta property="og:title" content="'+html.escape(title,quote=True)+'"><meta property="og:description" content="'+html.escape(data['summary'],quote=True)+'">')
+          page=page.replace('href="https://www.aletheiavoxquantumnetwork.com/articles/"','href="https://www.aletheiavoxquantumnetwork.com/articles/'+slug+'.html"')
+          if data['image'].startswith('https://'):
+            page=page.replace('content="https://www.aletheiavoxquantumnetwork.com/assets/avqn-logo.png"', 'content="'+html.escape(data['image'],quote=True)+'"')
+          path.parent.mkdir(exist_ok=True)
+          path.write_text(page)
+          index=pathlib.Path('articles.json')
+          items=json.loads(index.read_text()) if index.exists() else []
+          items.insert(0,{k:data[k] for k in ['slug','title','category','summary','image','date']})
+          index.write_text(json.dumps(items,ensure_ascii=False,indent=2)+'\n')
+          print('Published:',path)
+          PY
+          git config user.name "AVQN Publishing Bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add articles/ articles.json
+          git commit -m "Publish AVQN article: ${TITLE}"
+          git push
