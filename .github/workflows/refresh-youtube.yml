@@ -25,5 +25,6 @@ jobs:
           git add videos.json
           if ! git diff --cached --quiet; then
             git commit -m "Refresh AVQN YouTube archive"
-            git push
+            git pull --rebase origin main
+            git push origin HEAD:main
           fi
