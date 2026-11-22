@@ -1,5 +1,29 @@
 [
   {
+    "slug": "2026-11-21-fbi-ncic-apparent-cyberattack",
+    "title": "FBI Investigates Apparent Cyberattack Targeting National Crime Information Center",
+    "category": "Cybersecurity & National Security",
+    "summary": "Federal investigators are examining a reported intrusion involving the NCIC database. The scope and any potential exposure of records remain unclear.",
+    "date": "2026-11-21",
+    "image": "/assets/avqn-fbi-ncic-cyberattack.png"
+  },
+  {
+    "slug": "2026-11-20-mamdani-arrests-nypd-srg-reform",
+    "title": "Mamdani's Past Protest Arrests Draw Attention as NYC Disbands NYPD Strategic Response Group",
+    "category": "U.S. Politics & Policing",
+    "summary": "New York City has announced the disbandment of the NYPD Strategic Response Group, while reporting has highlighted Mayor Mamdani's earlier encounters with its officers.",
+    "date": "2026-11-20",
+    "image": "/assets/avqn-mamdani-nypd-srg.png"
+  },
+  {
+    "slug": "2026-11-19-air-force-one-china-reporters-phones",
+    "title": "Reporters Asked to Secure China-Used Phones in Faraday Bags on Air Force One",
+    "category": "White House & Press Freedom",
+    "summary": "A White House press pool account describes a cybersecurity precaution during the flight from China, with journalists asked to secure devices used during the visit.",
+    "date": "2026-11-19",
+    "image": "/assets/avqn-air-force-one-faraday-bags.png"
+  },
+  {
     "slug": "2026-11-16-iran-warns-strikes-us-bases",
     "title": "Iran Warns of Strikes on U.S. Military Bases if American Attacks Resume",
     "category": "World News & Security",
@@ -38,6 +62,14 @@
     "summary": "Iran says it targeted military facilities in Bahrain in retaliation for U.S. strikes; American and Bahraini officials report interceptions and dispute Iranian claims of damage.",
     "image": "/assets/avqn-bahrain-drone-feature.svg",
     "date": "2026-11-16"
+  },
+  {
+    "slug": "2026-11-13-fbi-artex-ai-cybersecurity-warning",
+    "title": "FBI Warns ARTEX AI Framework Is Being Weaponized to Accelerate Cyber Intrusions",
+    "category": "Cybersecurity & Artificial Intelligence",
+    "summary": "A November 13 FBI FLASH advisory warns that attackers are using the ARTEX agentic framework to automate stages of cyber intrusions, sometimes reaching privileged access in under three hours.",
+    "date": "2026-11-13",
+    "image": "/assets/avqn-fbi-artex-warning.png"
   },
   {
     "slug": "2026-11-13-faa-nationwide-ground-stop-communications-outage",
